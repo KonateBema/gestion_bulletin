@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>📊 {{ title }}</h3>
+    </div>
+
+    <!-- CARD FORM -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- Étudiant -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">🎓 Étudiant</label>
+                        {{ form.etudiant }}
+                    </div>
+
+                    <!-- Matière -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">📘 Matière</label>
+                        {{ form.matiere }}
+                    </div>
+
+                    <!-- Devoir -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">✏️ Devoir</label>
+                        {{ form.devoir }}
+                    </div>
+
+                    <!-- Examen -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">🧾 Examen</label>
+                        {{ form.examen }}
+                    </div>
+
+                    <!-- CC -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">📌 Contrôle continu (CC)</label>
+                        {{ form.cc }}
+                    </div>
+
+                    <!-- Semestre -->
+                    <div class="col-md-12 mb-4">
+                        <label class="form-label">📅 Semestre</label>
+                        {{ form.semestre }}
+                    </div>
+
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="d-flex justify-content-between">
+
+                    <a href="{% url 'note_list' %}" class="btn btn-outline-secondary">
+                        ⬅ Retour
+                    </a>
+
+                    <button type="submit" class="btn btn-success px-4">
+                        💾 Enregistrer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

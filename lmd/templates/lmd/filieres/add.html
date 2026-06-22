@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <!-- CARD -->
+            <div class="card border-0 shadow-sm rounded-3">
+
+                <!-- HEADER -->
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">➕ Ajouter une filière</h4>
+                    <small>Créer une nouvelle filière académique</small>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- INPUT -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">
+                                Nom de la filière
+                            </label>
+
+                            <input type="text"
+                                   name="nom"
+                                   class="form-control form-control-lg"
+                                   placeholder="Ex: Informatique, Gestion, Droit..."
+                                   required>
+                        </div>
+
+                        <!-- ACTIONS -->
+                        <div class="d-flex justify-content-between mt-4">
+
+                            <a href="{% url 'filiere_lmd_list' %}"
+                               class="btn btn-outline-secondary">
+                                ← Retour
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-success px-4">
+                                💾 Enregistrer
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

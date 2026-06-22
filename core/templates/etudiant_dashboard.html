@@ -1,0 +1,5 @@
+<h1>Dashboard Étudiant 🎓</h1>
+
+{% for note in notes %}
+    <p>{{ note.matiere.libelle }} : {{ note.valeur }}</p>
+{% endfor %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="mb-0">🔗 {{ title }}</h3>
+            <small class="text-muted">Gestion des affectations enseignants</small>
+        </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="card border-0 shadow-sm rounded-4">
+        
+        <div class="card-header bg-white border-0 py-3">
+            <strong>Formulaire d’affectation</strong>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <!-- PROFESSEUR -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        👨‍🏫 Professeur
+                    </label>
+                    {{ form.professeur }}
+                    <div class="text-danger small">
+                        {{ form.professeur.errors }}
+                    </div>
+                </div>
+
+                <!-- MATIERE -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        📘 Matière
+                    </label>
+                    {{ form.matiere }}
+                    <div class="text-danger small">
+                        {{ form.matiere.errors }}
+                    </div>
+                </div>
+
+                <!-- CLASSE -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">
+                        🏫 Classe
+                    </label>
+                    {{ form.classe }}
+                    <div class="text-danger small">
+                        {{ form.classe.errors }}
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="d-flex justify-content-between align-items-center mt-4">
+
+                    <a href="{% url 'affectation_list' %}" class="btn btn-outline-secondary px-4">
+                        ⬅ Retour
+                    </a>
+
+                    <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                        💾 Enregistrer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

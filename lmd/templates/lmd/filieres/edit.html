@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h3>✏️ Modifier filière</h3>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Nom</label>
+        <input type="text" name="nom" value="{{ filiere.nom }}" class="form-control">
+    </div>
+
+    <button class="btn btn-warning">Modifier</button>
+</form>
+
+{% endblock %}

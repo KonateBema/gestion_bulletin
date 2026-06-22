@@ -1,0 +1,149 @@
+<div class="sidebar">
+
+    <!-- BRAND -->
+    <div class="brand">
+        🎓 École Pro
+    </div>
+
+    <!-- DASHBOARD -->
+    <a href="{% url 'dashboard' %}">
+        🏠 Dashboard
+    </a>
+
+    {% if request.user.is_authenticated %}
+
+    {% if request.user.profile.role == "ADMIN" %}
+
+    <!-- =====================
+                 ADMINISTRATION
+            ====================== -->
+    <div class="section-title">
+        Administration
+    </div>
+
+    <!-- <a href="{% url 'classe_list' %}">
+        🏢 Classes
+    </a> -->
+
+    <a href="{% url 'etudiant_list' %}">
+        🎓 Étudiants
+    </a>
+
+    <a href="{% url 'matiere_list' %}">
+        📚 Matières
+    </a>
+
+    <!-- =====================
+                 SYSTEME CLASSIQUE
+            ====================== -->
+    <div class="section-title">
+        📊 Académique Classique
+    </div>
+
+    <a href="{% url 'note_list' %}">
+        🧠 Notes
+    </a>
+
+    <!-- <a href="#">
+        📊 Moyennes
+    </a> -->
+
+    <a href="{% url 'bulletin_list' %}">
+        📄 Bulletins
+    </a>
+
+    <!-- =====================
+                 SYSTEME LMD
+            ====================== -->
+    <div class="section-title">
+        🎓 Système LMD
+    </div>
+
+    <!-- <a href="{% url 'niveau_lmd_list' %}">
+        🎓 Niveaux
+    </a> -->
+
+    <a href="{% url 'filiere_lmd_list' %}">
+        🏛 Filières
+    </a>
+
+    <!-- <a href="{% url 'classe_lmd_list' %}">
+        🏢 Classes LMD
+    </a> -->
+    <!-- NOUVEAU MENU -->
+    <a href="{% url 'etudiant_lmd_list' %}">
+        👨‍🎓 Étudiants LMD
+    </a>
+    <a href="{% url 'ue_list' %}">
+        📚 UE
+    </a>
+
+    <a href="{% url 'ecue_list' %}">
+        📖 ECUE
+    </a>
+
+    <a href="{% url 'note_lmd_list' %}">
+        🧠 Notes LMD
+    </a>
+
+    <a href="{% url 'bulletin_lmd_list' %}">
+        📄 Bulletins LMD
+    </a>
+    {% elif request.user.profile.role == "PROF" %}
+
+    <!-- =====================
+                 PROFESSEUR
+            ====================== -->
+    <div class="section-title">
+        Professeur
+    </div>
+
+    <a href="{% url 'note_list' %}">
+        🧠 Saisie Notes
+    </a>
+
+    <a href="{% url 'note_lmd_list' %}">
+        🎓 Notes LMD
+    </a>
+
+    <a href="#">
+        📚 Mes Classes
+    </a>
+
+    {% elif request.user.profile.role == "ETUD" %}
+
+    <!-- =====================
+                 ETUDIANT
+            ====================== -->
+    <div class="section-title">
+        Étudiant
+    </div>
+
+    <a href="{% url 'dashboard_etudiant' %}">
+        📊 Dashboard
+    </a>
+
+    <a href="{% url 'bulletin_etudiant' %}">
+        📄 Bulletin Classique
+    </a>
+
+    <a href="#">
+        🎓 Bulletin LMD
+    </a>
+
+    {% endif %}
+
+    <!-- =====================
+             COMPTE
+        ====================== -->
+    <div class="section-title">
+        Compte
+    </div>
+
+    <a href="{% url 'logout' %}">
+        🚪 Déconnexion
+    </a>
+
+    {% endif %}
+
+</div>

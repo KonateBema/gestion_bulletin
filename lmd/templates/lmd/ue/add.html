@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+
+            <h4 class="mb-0">
+                📚 UE
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Code UE</label>
+
+                        <input
+                            type="text"
+                            name="code"
+                            class="form-control"
+                            value="{{ ue.code|default:'' }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+
+                        <label>Libellé</label>
+
+                        <input
+                            type="text"
+                            name="libelle"
+                            class="form-control"
+                            value="{{ ue.libelle|default:'' }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label>Crédits</label>
+
+                        <input
+                            type="number"
+                            name="credit"
+                            class="form-control"
+                            value="{{ ue.credit|default:'' }}"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-5 mb-3">
+
+                        <label>Filière</label>
+
+                        <select
+                            name="filiere"
+                            class="form-select">
+
+                            {% for f in filieres %}
+
+                            <option
+                                value="{{ f.id }}"
+                                {% if ue.filiere.id == f.id %}
+                                selected
+                                {% endif %}
+                            >
+                                {{ f.nom }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label>Semestre</label>
+
+                        <select
+                            name="semestre"
+                            class="form-select">
+
+                            <option value="S1">Semestre 1</option>
+                            <option value="S2">Semestre 2</option>
+                            <option value="S3">Semestre 3</option>
+                            <option value="S4">Semestre 4</option>
+                            <option value="S5">Semestre 5</option>
+                            <option value="S6">Semestre 6</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-success">
+
+                    💾 Enregistrer
+                </button>
+
+                <a href="{% url 'ue_list' %}"
+                   class="btn btn-secondary">
+
+                    Retour
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

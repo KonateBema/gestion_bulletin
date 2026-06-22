@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6 col-md-8">
+
+            <!-- CARD -->
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <!-- HEADER -->
+                <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+                    <h4 class="mb-0">🏫 Ajouter une classe</h4>
+                    <small class="opacity-75">Remplissez les informations</small>
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- NOM -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nom de la classe</label>
+                            {{ form.nom }}
+                            <div class="text-danger small">
+                                {{ form.nom.errors }}
+                            </div>
+                        </div>
+
+                        <!-- FILIERE -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Filière</label>
+                            {{ form.filiere }}
+                            <div class="text-danger small">
+                                {{ form.filiere.errors }}
+                            </div>
+                        </div>
+
+                        <!-- NIVEAU -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Niveau</label>
+                            {{ form.niveau }}
+                            <div class="text-danger small">
+                                {{ form.niveau.errors }}
+                            </div>
+                        </div>
+
+                        <!-- BUTTON -->
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold rounded-3">
+                            💾 Enregistrer
+                        </button>
+
+                        <a href="{% url 'classe_list' %}" class="btn btn-outline-secondary w-100 mt-2">
+                            ⬅ Retour
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

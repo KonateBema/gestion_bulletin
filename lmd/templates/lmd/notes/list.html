@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h3>🧠 Notes LMD</h3>
+
+        <a href="{% url 'note_lmd_add' %}" class="btn btn-primary">
+            ➕ Ajouter note
+        </a>
+    </div>
+
+    <!-- FILTRES -->
+    <form method="get" class="row g-2 mb-3">
+
+        <div class="col-md-5">
+            <input type="text" name="etudiant"
+                   class="form-control"
+                   placeholder="Nom / matricule étudiant">
+        </div>
+
+        <div class="col-md-4">
+            <input type="text" name="ecue"
+                   class="form-control"
+                   placeholder="Code ECUE">
+        </div>
+
+        <div class="col-md-3">
+            <button class="btn btn-dark w-100">
+                🔍 Filtrer
+            </button>
+        </div>
+
+    </form>
+
+    <!-- TABLE -->
+    <div class="table-responsive">
+
+        <table class="table table-hover table-bordered align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Étudiant</th>
+                    <th>ECUE</th>
+                    <th>CC</th>
+                    <th>Examen</th>
+                    <th>Moyenne</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for n in notes %}
+
+            <tr>
+                <td>{{ n.etudiant.nom }} {{ n.etudiant.prenoms }}</td>
+                <td>{{ n.ecue.code }}</td>
+                <td>{{ n.cc }}</td>
+                <td>{{ n.examen }}</td>
+
+                <td>
+                    <span class="badge bg-success">
+                        {{ n.moyenne }}
+                    </span>
+                </td>
+
+                <td>
+                    <a href="{% url 'note_lmd_edit' n.id %}"
+                       class="btn btn-warning btn-sm">
+                        ✏️
+                    </a>
+
+                    <a href="{% url 'note_lmd_delete' n.id %}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Supprimer ?')">
+                        🗑
+                    </a>
+                </td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="6" class="text-center">
+                    Aucune note trouvée
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

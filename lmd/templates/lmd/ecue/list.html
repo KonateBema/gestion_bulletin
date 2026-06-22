@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="card border-0 shadow-lg">
+
+        <!-- HEADER -->
+        <div class="card-header border-0 text-white"
+             style="background: linear-gradient(135deg,#0d6efd,#084298);">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h3 class="mb-0">
+                        📖 Gestion des ECUE
+                    </h3>
+                    <small>
+                        Gestion des Éléments Constitutifs des UE
+                    </small>
+                </div>
+
+                <a href="{% url 'ecue_add' %}"
+                   class="btn btn-light btn-lg">
+                    ➕ Ajouter un ECUE
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- FILTRE -->
+            <div class="card bg-light border-0 mb-4">
+
+                <div class="card-body">
+
+                    <form method="get">
+
+                        <div class="row align-items-end">
+
+                            <div class="col-md-6">
+
+                                <label class="form-label fw-bold">
+                                    🔍 Filtrer par UE
+                                </label>
+
+                                <select
+                                    name="ue"
+                                    class="form-select form-select-lg"
+                                    onchange="this.form.submit()">
+
+                                    <option value="">
+                                        Toutes les UE
+                                    </option>
+
+                                    {% for u in ues %}
+
+                                    <option
+                                        value="{{ u.id }}"
+                                        {% if ue_selected == u.id|stringformat:"s" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        {{ u.code }} - {{ u.libelle }}
+                                    </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <button type="submit"
+                                        class="btn btn-primary btn-lg w-100">
+                                    🔎 Rechercher
+                                </button>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <a href="{% url 'ecue_list' %}"
+                                   class="btn btn-outline-secondary btn-lg w-100">
+                                    🔄 Réinitialiser
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- TABLEAU -->
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-primary">
+
+                        <tr>
+                            <th>UE</th>
+                            <th>Code</th>
+                            <th>Libellé</th>
+                            <th class="text-center">Coefficient</th>
+                            <th class="text-center">Crédit</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for e in ecues %}
+
+                        <tr>
+
+                            <td>
+                                <span class="badge bg-primary">
+                                    {{ e.ue.code }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <strong>{{ e.code }}</strong>
+                            </td>
+
+                            <td>
+                                {{ e.libelle }}
+                            </td>
+
+                            <td class="text-center">
+                                <span class="badge bg-success fs-6">
+                                    {{ e.coefficient }}
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+                                <span class="badge bg-info fs-6">
+                                    {{ e.credit }}
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+
+                                <a href="{% url 'ecue_edit' e.id %}"
+                                   class="btn btn-warning btn-sm me-1">
+                                    ✏️ Modifier
+                                </a>
+
+                                <a href="{% url 'ecue_delete' e.id %}"
+                                   class="btn btn-danger btn-sm">
+                                    🗑 Supprimer
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                <div class="text-center py-5">
+
+                                    <h5 class="text-muted">
+                                        📭 Aucun ECUE trouvé
+                                    </h5>
+
+                                    <p class="text-muted">
+                                        Aucun élément constitutif n'est enregistré.
+                                    </p>
+
+                                    <a href="{% url 'ecue_add' %}"
+                                       class="btn btn-primary">
+                                        ➕ Ajouter le premier ECUE
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer bg-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <span class="text-muted">
+                    Total ECUE : <strong>{{ ecues|length }}</strong>
+                </span>
+
+                <span class="text-muted">
+                    Total crédits :
+                    <strong>{{ total_credits|default:"0" }}</strong>
+                </span>
+
+                <span class="text-muted">
+                    Système LMD
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

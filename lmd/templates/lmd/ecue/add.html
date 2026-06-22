@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">📖 ECUE</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- UE -->
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">UE</label>
+
+                        <select name="ue"
+                                class="form-select"
+                                required>
+
+                            {% for u in ues %}
+                            <option value="{{ u.id }}"
+                                {% if ecue.ue.id == u.id %}selected{% endif %}>
+                                {{ u.code }} - {{ u.libelle }}
+                            </option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <!-- Code -->
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">Code</label>
+
+                        <input type="text"
+                               name="code"
+                               class="form-control"
+                               value="{{ ecue.code|default:'' }}"
+                               required>
+
+                    </div>
+
+                    <!-- Coefficient -->
+                    <div class="col-md-2 mb-3">
+
+                        <label class="form-label">
+                            Coefficient
+                        </label>
+
+                        <input type="number"
+                               name="coefficient"
+                               class="form-control"
+                               value="{{ ecue.coefficient|default:1 }}"
+                               min="1"
+                               required>
+
+                    </div>
+
+                    <!-- Crédit -->
+                    <div class="col-md-2 mb-3">
+
+                        <label class="form-label">
+                            Crédit
+                        </label>
+
+                        <input type="number"
+                               name="credit"
+                               class="form-control"
+                               value="{{ ecue.credit|default:1 }}"
+                               min="0"
+                               step="0.5"
+                               required>
+
+                    </div>
+
+                    <!-- Libellé -->
+                    <div class="col-md-12 mb-3">
+
+                        <label class="form-label">
+                            Libellé
+                        </label>
+
+                        <input type="text"
+                               name="libelle"
+                               class="form-control"
+                               value="{{ ecue.libelle|default:'' }}"
+                               required>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <button type="submit"
+                        class="btn btn-success">
+                    💾 Enregistrer
+                </button>
+
+                <a href="{% url 'ecue_list' %}"
+                   class="btn btn-secondary">
+                    ↩ Retour
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- ================= HEADER ================= -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+
+        <div>
+            <h2 class="fw-bold mb-1">📚 Filières académiques</h2>
+            <p class="text-muted mb-0">
+                Gestion centralisée des filières de formation
+            </p>
+        </div>
+
+        <button class="btn btn-primary shadow-sm px-4 py-2 rounded-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addFiliereModal">
+            ➕ Nouvelle filière
+        </button>
+
+    </div>
+
+    <!-- ================= KPI ================= -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body">
+                    <h6 class="text-muted">Total filières</h6>
+                    <h3 class="fw-bold text-primary mb-0">{{ filieres|length }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= TABLE ================= -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Filière</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for filiere in filieres %}
+
+                        <tr>
+
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                                        🎓 {{ filiere.nom }}
+                                    </span>
+
+                                </div>
+                            </td>
+
+                            <td class="text-end">
+
+                                <div class="btn-group">
+
+                                    <button class="btn btn-outline-warning btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ filiere.pk }}">
+                                        ✏️
+                                    </button>
+
+                                    <button class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ filiere.pk }}">
+                                        🗑
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        <!-- ================= MODAL EDIT ================= -->
+                        <div class="modal fade" id="editModal{{ filiere.pk }}" tabindex="-1">
+
+                            <div class="modal-dialog modal-dialog-centered">
+
+                                <div class="modal-content border-0 shadow-lg rounded-4">
+
+                                    <div class="modal-header bg-warning">
+                                        <h5 class="modal-title fw-bold">✏️ Modifier la filière</h5>
+                                        <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <form method="POST"
+                                          action="{% url 'filiere_lmd_edit' filiere.pk %}">
+                                        {% csrf_token %}
+
+                                        <div class="modal-body">
+
+                                            <label class="form-label">Nom de la filière</label>
+
+                                            <input type="text"
+                                                   name="nom"
+                                                   class="form-control form-control-lg"
+                                                   value="{{ filiere.nom }}"
+                                                   required>
+
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <button type="button"
+                                                    class="btn btn-outline-secondary"
+                                                    data-bs-dismiss="modal">
+                                                Annuler
+                                            </button>
+
+                                            <button type="submit"
+                                                    class="btn btn-success">
+                                                💾 Enregistrer
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- ================= MODAL DELETE ================= -->
+                        <div class="modal fade" id="deleteModal{{ filiere.pk }}" tabindex="-1">
+
+                            <div class="modal-dialog modal-dialog-centered">
+
+                                <div class="modal-content border-0 shadow-lg rounded-4">
+
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title fw-bold">⚠️ Suppression</h5>
+                                        <button type="button"
+                                                class="btn-close btn-close-white"
+                                                data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        Voulez-vous vraiment supprimer :
+                                        <br>
+                                        <strong class="text-danger">{{ filiere.nom }}</strong>
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button class="btn btn-outline-secondary"
+                                                data-bs-dismiss="modal">
+                                            Annuler
+                                        </button>
+
+                                        <form method="POST"
+                                              action="{% url 'filiere_lmd_delete' filiere.pk %}">
+                                            {% csrf_token %}
+
+                                            <button type="submit"
+                                                    class="btn btn-danger">
+                                                Oui, supprimer
+                                            </button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="2" class="text-center py-5 text-muted">
+                                Aucune filière enregistrée
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= MODAL ADD ================= -->
+<div class="modal fade" id="addFiliereModal" tabindex="-1">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold">➕ Ajouter une filière</h5>
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="POST" action="{% url 'filiere_lmd_add' %}">
+                {% csrf_token %}
+
+                <div class="modal-body">
+
+                    <label class="form-label">Nom de la filière</label>
+
+                    <input type="text"
+                           name="nom"
+                           class="form-control form-control-lg"
+                           placeholder="Ex: Informatique"
+                           required>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Annuler
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        💾 Enregistrer
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

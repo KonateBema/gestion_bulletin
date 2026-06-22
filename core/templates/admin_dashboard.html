@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Administrateur{% endblock %}
+
+{% block content %}
+
+<style>
+
+.dashboard-header{
+    background: linear-gradient(135deg,#0d6efd,#6610f2);
+    color:#fff;
+    padding:30px;
+    border-radius:15px;
+    margin-bottom:30px;
+}
+
+.dashboard-header h2{
+    margin:0;
+    font-weight:700;
+}
+
+.dashboard-header p{
+    margin-top:10px;
+    margin-bottom:0;
+}
+
+.stat-card{
+    background:#fff;
+    border:none;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:0.3s;
+    height:100%;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.stat-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.stat-number{
+    font-size:32px;
+    font-weight:bold;
+}
+
+.action-card{
+    background:#fff;
+    border:none;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    height:100%;
+}
+
+.btn-action{
+    margin-bottom:10px;
+}
+
+</style>
+
+<div class="container-fluid">
+
+```
+<!-- Header -->
+<div class="dashboard-header">
+    <h2>👑 Dashboard Administrateur</h2>
+    <p>Bienvenue dans votre plateforme de gestion scolaire</p>
+</div>
+
+<!-- Statistiques -->
+<div class="row g-4">
+
+    <div class="col-lg-4 col-md-6">
+        <div class="stat-card">
+            <div class="stat-icon">🎓</div>
+            <h5>Étudiants</h5>
+            <div class="stat-number text-primary">
+                {{ etudiants }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+        <div class="stat-card">
+            <div class="stat-icon">👨‍🏫</div>
+            <h5>Professeurs</h5>
+            <div class="stat-number text-success">
+                {{ professeurs }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-12">
+        <div class="stat-card">
+            <div class="stat-icon">🏫</div>
+            <h5>Classes</h5>
+            <div class="stat-number text-danger">
+                {{ classes }}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Actions et Résumé -->
+<div class="row mt-4">
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="action-card">
+
+            <h4 class="mb-3">⚡ Actions Rapides</h4>
+
+            <a href="{% url 'etudiant_list' %}"
+               class="btn btn-primary w-100 btn-action">
+                ➕ Gérer les étudiants
+            </a>
+
+            <a href="{% url 'classe_list' %}"
+               class="btn btn-success w-100 btn-action">
+                🏫 Gérer les classes
+            </a>
+
+            <a href="{% url 'matiere_list' %}"
+               class="btn btn-dark w-100 btn-action">
+                📚 Gérer les matières
+            </a>
+
+            <a href="{% url 'note_list' %}"
+               class="btn btn-warning w-100">
+                📝 Gérer les notes
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6 mb-4">
+
+        <div class="action-card">
+
+            <h4 class="mb-3">📊 État du système</h4>
+
+            <div class="alert alert-success">
+                ✔ Base de données connectée
+            </div>
+
+            <div class="alert alert-primary">
+                ✔ Authentification active
+            </div>
+
+            <div class="alert alert-info">
+                ✔ Gestion des utilisateurs active
+            </div>
+
+            <div class="alert alert-warning">
+                ✔ Module bulletins disponible
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+{% endblock %}

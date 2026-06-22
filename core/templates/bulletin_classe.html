@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container my-4">
+
+    <!-- BORDURE TYPE BULLETIN -->
+    <div class="p-3 border border-dark">
+
+        <!-- HEADER -->
+        <div class="row mb-2">
+
+            <div class="col-6">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h6 class="mb-0">UNIVERSITÉ INTERNATIONALE DE COCODY</h6>
+                        <small>
+                            Tel: +225 ... <br>
+                            Email: ... <br>
+                            Site: ...
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 text-end">
+                <strong>Nom & Prénom :</strong> {{ etudiant.user.get_full_name }} <br>
+                <strong>Matricule :</strong> {{ etudiant.matricule }} <br>
+                <strong>Classe :</strong> {{ classe.nom }}
+            </div>
+
+        </div>
+
+        <!-- TITRE -->
+        <div class="text-center my-2">
+            <h4 class="text-danger fw-bold">
+                BULLETIN DE NOTES - 1er SEMESTRE
+            </h4>
+        </div>
+
+        <!-- TABLE NOTES -->
+        <table class="table table-bordered table-sm text-center align-middle">
+
+            <thead class="table-light">
+                <tr>
+                    <th>MATIÈRE</th>
+                    <th>MOY /20</th>
+                    <th>COEF</th>
+                    <th>MOY COEF</th>
+                    <th>RANG</th>
+                    <th>MENTION</th>
+                    <th>MIN</th>
+                    <th>MOY</th>
+                    <th>MAX</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- SECTION -->
+                <tr class="table-secondary">
+                    <td colspan="9"><strong>FORMATION GÉNÉRALE</strong></td>
+                </tr>
+
+                {% for note in notes_generales %}
+                <tr>
+                    <td>{{ note.matiere }}</td>
+                    <td>{{ note.moyenne }}</td>
+                    <td>{{ note.coefficient }}</td>
+                    <td>{{ note.moy_coef }}</td>
+                    <td>{{ note.rang }}</td>
+                    <td>{{ note.mention }}</td>
+                    <td>{{ note.min }}</td>
+                    <td>{{ note.moy_classe }}</td>
+                    <td>{{ note.max }}</td>
+                </tr>
+                {% endfor %}
+
+                <!-- SECTION -->
+                <tr class="table-secondary">
+                    <td colspan="9"><strong>FORMATION TECHNIQUE & PROFESSIONNELLE</strong></td>
+                </tr>
+
+                {% for note in notes_techniques %}
+                <tr>
+                    <td>{{ note.matiere }}</td>
+                    <td>{{ note.moyenne }}</td>
+                    <td>{{ note.coefficient }}</td>
+                    <td>{{ note.moy_coef }}</td>
+                    <td>{{ note.rang }}</td>
+                    <td>{{ note.mention }}</td>
+                    <td>{{ note.min }}</td>
+                    <td>{{ note.moy_classe }}</td>
+                    <td>{{ note.max }}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+        <!-- RÉCAP -->
+        <div class="row mt-3">
+
+            <div class="col-6">
+                <table class="table table-bordered table-sm">
+                    <tr><th>Total points</th><td>{{ total_points }}</td></tr>
+                    <tr><th>Moyenne</th><td>{{ moyenne }}</td></tr>
+                    <tr><th>Rang</th><td>{{ rang }}</td></tr>
+                    <tr><th>Nombre élèves</th><td>{{ nb_eleves }}</td></tr>
+                </table>
+            </div>
+
+            <div class="col-6">
+                <table class="table table-bordered table-sm">
+                    <tr><th>Absences totales</th><td>{{ abs_total }}</td></tr>
+                    <tr><th>Absences justifiées</th><td>{{ abs_j }}</td></tr>
+                    <tr><th>Conduite</th><td>{{ conduite }}</td></tr>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- OBSERVATION + SIGNATURE -->
+        <div class="row mt-3">
+
+            <div class="col-8">
+                <strong>Observation du conseil de classe :</strong>
+                <div class="border p-2" style="min-height:80px;">
+                    {{ observation }}
+                </div>
+            </div>
+
+            <div class="col-4 text-center">
+                <strong>Visa du chef d’établissement</strong>
+                <div style="height:80px;"></div>
+                <small>Signature & cachet</small>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

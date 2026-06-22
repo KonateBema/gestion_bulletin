@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="card border-0 shadow-lg rounded-4">
+
+        <!-- HEADER -->
+        <div class="card-header border-0 rounded-top-4 bg-primary bg-gradient text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h3 class="mb-0">
+                        <i class="bi bi-journal-bookmark-fill"></i>
+                        Gestion des UE
+                    </h3>
+                    <small>Liste des Unités d'Enseignement</small>
+                </div>
+
+                <a href="{% url 'ue_add' %}"
+                   class="btn btn-light fw-bold">
+
+                    <i class="bi bi-plus-circle-fill"></i>
+                    Nouvelle UE
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>Code</th>
+                            <th>Libellé</th>
+                            <th>Crédits</th>
+                            <th>Filière</th>
+                            <th>Semestre</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for ue in ues %}
+
+                        <tr>
+
+                            <td>
+                                <span class="fw-bold text-primary">
+                                    {{ ue.code }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ ue.libelle }}
+                            </td>
+
+                            <td>
+                                <span class="badge bg-success fs-6">
+                                    {{ ue.credit }} Cr
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ ue.filiere.nom }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge bg-secondary">
+                                    {{ ue.semestre }}
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+
+                                <a href="{% url 'ue_edit' ue.id %}"
+                                   class="btn btn-warning btn-sm">
+
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <a href="{% url 'ue_delete' ue.id %}"
+                                   class="btn btn-danger btn-sm">
+
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td colspan="6">
+
+                                <div class="alert alert-info text-center mb-0">
+
+                                    <i class="bi bi-info-circle-fill"></i>
+                                    Aucune UE enregistrée
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="card-footer bg-light">
+
+            <div class="d-flex justify-content-between">
+
+                <span>
+                    Total UE :
+                    <strong>{{ ues|length }}</strong>
+                </span>
+
+                <span class="text-muted">
+                    Système LMD
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

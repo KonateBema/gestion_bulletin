@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow-sm border-0">
+
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">🧠 Gestion des Notes LMD</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <!-- Étudiant -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">👨‍🎓 Étudiant</label>
+                        <select name="etudiant" class="form-select" required>
+                            <option value="">-- Sélectionner un étudiant --</option>
+                            {% for e in etudiants %}
+                                <option value="{{ e.id }}">
+                                    {{ e.matricule }} - {{ e.nom }} {{ e.prenoms }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- ECUE -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">📚 ECUE</label>
+                        <select name="ecue" class="form-select" required>
+                            <option value="">-- Sélectionner un ECUE --</option>
+                            {% for c in ecues %}
+                                <option value="{{ c.id }}">
+                                    {{ c.code }} - {{ c.libelle }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- CC -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">📝 Contrôle Continu (CC)</label>
+                        <input type="number" step="0.01" name="cc"
+                               class="form-control"
+                               placeholder="Ex: 12.5" required>
+                    </div>
+
+                    <!-- Examen -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">📊 Examen</label>
+                        <input type="number" step="0.01" name="examen"
+                               class="form-control"
+                               placeholder="Ex: 14" required>
+                    </div>
+
+                </div>
+
+                <!-- BUTTON -->
+                <div class="d-flex justify-content-between mt-3">
+
+                    <a href="{% url 'note_lmd_list' %}" class="btn btn-outline-secondary">
+                        ← Retour
+                    </a>
+
+                    <button type="submit" class="btn btn-success">
+                        💾 Enregistrer la note
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

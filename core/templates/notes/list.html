@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2>📊 Notes des étudiants</h2>
+        <a href="{% url 'note_add' %}" class="btn btn-primary">
+            ➕ Ajouter note
+        </a>
+    </div>
+
+    <!-- FILTRES -->
+    <div class="card mb-3">
+        <div class="card-body">
+
+            <form method="GET">
+                <div class="row">
+
+                    <!-- Étudiant -->
+                    <div class="col-md-4">
+                        <label>Étudiant</label>
+                        <select name="etudiant" class="form-select">
+                            <option value="">Tous</option>
+                            {% for e in etudiants %}
+                                <option value="{{ e.id }}"
+                                    {% if request.GET.etudiant == e.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ e }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Matière -->
+                    <div class="col-md-4">
+                        <label>Matière</label>
+                        <select name="matiere" class="form-select">
+                            <option value="">Toutes</option>
+                            {% for m in matieres %}
+                                <option value="{{ m.id }}"
+                                    {% if request.GET.matiere == m.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ m }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Semestre -->
+                    <div class="col-md-2">
+                        <label>Semestre</label>
+                        <select name="semestre" class="form-select">
+                            <option value="">Tous</option>
+                            <option value="Semestre 1" {% if request.GET.semestre == "Semestre 1" %}selected{% endif %}>
+                                Semestre 1
+                            </option>
+                            <option value="Semestre 2" {% if request.GET.semestre == "Semestre 2" %}selected{% endif %}>
+                                Semestre 2
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Bouton -->
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="btn btn-primary w-100">
+                            🔍 Filtrer
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+
+            <table class="table table-hover mb-0">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Matière</th>
+                        <th>Devoir</th>
+                        <th>Examen</th>
+                        <th>Moyenne</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for n in notes %}
+                    <tr>
+                        <td>{{ n.etudiant }}</td>
+                        <td>{{ n.matiere }}</td>
+                        <td>{{ n.devoir }}</td>
+                        <td>{{ n.examen }}</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                {{ n.moyenne|floatformat:2 }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <a href="{% url 'note_edit' n.id %}" class="btn btn-warning btn-sm">✏️</a>
+                            <a href="{% url 'note_delete' n.id %}" class="btn btn-danger btn-sm">🗑️</a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center p-4">
+                            Aucune note enregistrée
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+            <!-- PAGINATION -->
+            <nav class="mt-3">
+                <ul class="pagination justify-content-center">
+
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.previous_page_number }}
+                           {% if request.GET.etudiant %}&etudiant={{ request.GET.etudiant }}{% endif %}
+                           {% if request.GET.matiere %}&matiere={{ request.GET.matiere }}{% endif %}
+                           {% if request.GET.semestre %}&semestre={{ request.GET.semestre }}{% endif %}">
+                            Précédent
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                            <a class="page-link"
+                               href="?page={{ num }}
+                               {% if request.GET.etudiant %}&etudiant={{ request.GET.etudiant }}{% endif %}
+                               {% if request.GET.matiere %}&matiere={{ request.GET.matiere }}{% endif %}
+                               {% if request.GET.semestre %}&semestre={{ request.GET.semestre }}{% endif %}">
+                                {{ num }}
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                           href="?page={{ page_obj.next_page_number }}
+                           {% if request.GET.etudiant %}&etudiant={{ request.GET.etudiant }}{% endif %}
+                           {% if request.GET.matiere %}&matiere={{ request.GET.matiere }}{% endif %}
+                           {% if request.GET.semestre %}&semestre={{ request.GET.semestre }}{% endif %}">
+                            Suivant
+                        </a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

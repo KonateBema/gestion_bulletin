@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                📄 Gestion des Bulletins LMD
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- FILTRES -->
+            <form method="get" class="row g-3 mb-4">
+
+                <div class="col-md-2">
+                    <label class="form-label">
+                        Matricule
+                    </label>
+                    <input
+                        type="text"
+                        name="matricule"
+                        value="{{ request.GET.matricule }}"
+                        class="form-control"
+                        placeholder="Ex : LMD2025001">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">
+                        Nom / Prénoms
+                    </label>
+                    <input
+                        type="text"
+                        name="nom"
+                        value="{{ request.GET.nom }}"
+                        class="form-control"
+                        placeholder="Nom étudiant">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">
+                        Téléphone
+                    </label>
+                    <input
+                        type="text"
+                        name="telephone"
+                        value="{{ request.GET.telephone }}"
+                        class="form-control"
+                        placeholder="Téléphone">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">
+                        Niveau
+                    </label>
+                    <select name="niveau" class="form-select">
+                        <option value="">
+                            Tous
+                        </option>
+
+                        {% for niveau in niveaux %}
+                        <option
+                            value="{{ niveau.id }}"
+                            {% if request.GET.niveau == niveau.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ niveau }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">
+                        Classe
+                    </label>
+                    <select name="classe" class="form-select">
+                        <option value="">
+                            Toutes
+                        </option>
+
+                        {% for classe in classes %}
+                        <option
+                            value="{{ classe.id }}"
+                            {% if request.GET.classe == classe.id|stringformat:"s" %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ classe }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        🔍 Rechercher
+                    </button>
+
+                    <a
+                        href="{% url 'bulletin_lmd_list' %}"
+                        class="btn btn-secondary">
+                        ↺ Réinitialiser
+                    </a>
+                </div>
+
+            </form>
+
+            <!-- TABLEAU -->
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th>Matricule</th>
+                            <th>Nom complet</th>
+                            <th>Téléphone</th>
+                            <th>Niveau</th>
+                            <th>Classe</th>
+                            <th>Filière</th>
+                            <th width="180">
+                                Actions
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for e in etudiants %}
+
+                    <tr>
+
+                        <td>
+                            <span class="badge bg-secondary">
+                                {{ e.matricule }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <strong>{{ e.nom }}</strong><br>
+                            <small class="text-muted">
+                                {{ e.prenoms }}
+                            </small>
+                        </td>
+
+                        <td>
+                            {{ e.telephone }}
+                        </td>
+
+                        <td>
+                            <span class="badge bg-info">
+                                {{ e.niveau }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ e.classe }}
+                        </td>
+
+                        <td>
+                            {{ e.filiere }}
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{% url 'bulletin_lmd_pdf' e.id %}"
+                                class="btn btn-success btn-sm">
+                                📄 Telecharger mon bulletin
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            Aucun étudiant trouvé.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

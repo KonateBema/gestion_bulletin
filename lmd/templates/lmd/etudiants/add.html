@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-11">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- HEADER -->
+                <div class="card-header bg-primary text-white py-3 rounded-top-4">
+                    <h3 class="mb-0 fw-bold">🎓 Inscription Étudiant LMD</h3>
+                    <small class="opacity-75">Création du dossier académique</small>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- ===================== PERSONNEL ===================== -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold text-primary">👤 Informations personnelles</h5>
+                            <div class="border-bottom mb-3"></div>
+
+                            <div class="row g-3">
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Matricule</label>
+                                    <input type="text" name="matricule" class="form-control"
+                                           placeholder="Ex: LMD2026001" required>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Nom</label>
+                                    <input type="text" name="nom" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Prénoms</label>
+                                    <input type="text" name="prenoms" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Sexe</label>
+                                    <select name="sexe" class="form-select">
+                                        <option value="M">Masculin</option>
+                                        <option value="F">Féminin</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Naissance</label>
+                                    <input type="date" name="date_naissance" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="text" name="telephone" class="form-control">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ===================== ACADÉMIQUE ===================== -->
+                        <div class="mb-4 mt-5">
+                            <h5 class="fw-bold text-primary">🎓 Informations académiques</h5>
+                            <div class="border-bottom mb-3"></div>
+
+                            <div class="row g-3">
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Niveau</label>
+                                    <select name="niveau" class="form-select" required>
+                                        <option value="">-- Choisir --</option>
+                                        <option value="L1">Licence 1</option>
+                                        <option value="L2">Licence 2</option>
+                                        <option value="M1">Master 1</option>
+                                        <option value="M2">Master 2</option>
+                                        <option value="DOC">Doctorat</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Filière</label>
+                                    <select name="filiere" class="form-select" required>
+                                        <option value="">-- Choisir --</option>
+                                        {% for f in filieres %}
+                                            <option value="{{ f.id }}">{{ f.nom }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Année académique</label>
+                                    <input type="text" name="annee_academique"
+                                           class="form-control" placeholder="2026-2027" required>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ===================== UE ===================== -->
+                        <div class="mb-4 mt-5">
+                            <h5 class="fw-bold text-primary">📚 UE attribuées</h5>
+                            <div class="border-bottom mb-3"></div>
+
+                            <div class="row g-2">
+                                {% for ue in ues %}
+                                <div class="col-md-4">
+                                    <div class="form-check card p-2 border-0 shadow-sm">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="ue" value="{{ ue.id }}">
+                                        <label class="form-check-label">
+                                            <strong>{{ ue.code }}</strong> - {{ ue.libelle }}
+                                        </label>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p class="text-muted">Aucune UE disponible</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- ===================== ECUE ===================== -->
+                        <div class="mb-4 mt-5">
+                            <h5 class="fw-bold text-primary">📖 ECUE attribuées</h5>
+                            <div class="border-bottom mb-3"></div>
+
+                            <div class="row g-2">
+                                {% for ecue in ecues %}
+                                <div class="col-md-6">
+                                    <div class="form-check card p-2 border-0 shadow-sm">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="ecue" value="{{ ecue.id }}">
+                                        <label class="form-check-label">
+                                            <strong>{{ ecue.code }}</strong> - {{ ecue.libelle }}
+                                            <small class="text-muted">({{ ecue.ue.code }})</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p class="text-muted">Aucune ECUE disponible</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- ===================== ACTIONS ===================== -->
+                        <div class="d-flex justify-content-between mt-5">
+
+                            <a href="{% url 'etudiant_lmd_list' %}"
+                               class="btn btn-outline-secondary btn-lg px-4">
+                                ↩ Retour
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-success btn-lg px-5 shadow-sm">
+                                💾 Enregistrer
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
