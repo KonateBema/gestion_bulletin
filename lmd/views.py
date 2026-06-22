@@ -566,10 +566,6 @@ def calcul_moyenne_ue(etudiant, ue):
 def ue_validee(moyenne_ue):
     return moyenne_ue >= 10
 
-def etudiant_lmd_editDDD(request, pk):
-    etudiant = EtudiantLMD.objects.get(pk=pk)
-    return render(request, "lmd/etudiants/edit.html", {"etudiant": etudiant})
-
 
 def etudiant_lmd_delete(request, pk):
     etudiant = get_object_or_404(EtudiantLMD, pk=pk)

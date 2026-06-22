@@ -62,8 +62,6 @@ urlpatterns = [
     path('etudiants/add/', views.etudiant_lmd_add, name='etudiant_lmd_add'),
     path("etudiants/<int:pk>/edit/", views.etudiant_lmd_update, name="etudiant_lmd_update"),
     path("etudiants/<int:pk>/delete/", views.etudiant_lmd_delete, name="etudiant_lmd_delete"),
-    path("etudiants/<int:pk>/edit/", views.etudiant_lmd_update, name="etudiant_lmd_edit"),
-
 
     path('bulletin-lmd/<int:etudiant_id>/',views.bulletin_lmd_pdf,name='bulletin_lmd_pdf'),
     path('bulletins/<int:etudiant_id>/', views.bulletin_lmd_pdf, name='bulletin_lmd_pdf'),
