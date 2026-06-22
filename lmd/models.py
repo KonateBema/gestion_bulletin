@@ -73,9 +73,11 @@ class NoteLMD(models.Model):
 
     def __str__(self):
         return f"{self.etudiant} - {self.ecue} ({self.moyenne})"
+
 # =====================
 # ÉTUDIANT LMD (structure académique)
 # =====================
+
 class EtudiantLMD(models.Model):
 
     user = models.OneToOneField(
