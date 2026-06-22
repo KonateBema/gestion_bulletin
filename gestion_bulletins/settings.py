@@ -8,13 +8,8 @@ SECRET_KEY = "django-insecure-v-5c)vcsv6_(ei75o6a1+@^d2y*%z$3ayp9$4-*uz+11vn_^es
 
 # Production safe
 DEBUG = False
-
-ALLOWED_HOSTS = [
-    "gestion-bulletin.onrender.com",
-    ".onrender.com",
-    "127.0.0.1",
-    "localhost",
-]
+USE_X_FORWARDED_HOST = True
+ALLOWED_HOSTS = ["*"]
 
 # APPLICATIONS
 INSTALLED_APPS = [
