@@ -27,12 +27,7 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 # DEBUG = False # pour production
-
-ALLOWED_HOSTS = [
-     "127.0.0.1",
-     "localhost",
-]
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 # AUTH_USER_MODEL = 'core.User'
@@ -56,13 +51,14 @@ LOGOUT_REDIRECT_URL = 'login'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-      "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "gestion_bulletins.urls"
@@ -87,6 +83,7 @@ WSGI_APPLICATION = "gestion_bulletins.wsgi.application"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
